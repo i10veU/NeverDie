@@ -43,6 +43,12 @@ void func1(int arg1, int arg2, int arg3);
 void func2(int arg1, int arg2);
 void func3(int arg1);
 
+void pushVal(int a, const char* thing){//변수 저장: int/변수 설명명
+    SP++;
+    call_stack[SP]=a;
+    strncpy(stack_info[SP], a);//설명을 저장? 어떤설명?
+}
+
 /*  
     현재 call_stack 전체를 출력합니다.
     해당 함수의 출력 결과들을 바탕으로 구현 완성도를 평가할 예정입니다.
