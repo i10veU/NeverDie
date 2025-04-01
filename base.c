@@ -158,7 +158,12 @@ void func3(int arg1)
     int var_3 = 300;
     int var_4 = 400;
 
+    int args[]={arg1};
     // func3의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func3", args, 1);
+    pushVal(var_3, "var_3");
+    pushVal(var_4, "var_4");
+
     print_stack();
 }
 
