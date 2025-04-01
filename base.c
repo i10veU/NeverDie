@@ -60,7 +60,7 @@ void funcPrologue(const char* funcName, int* args, int argc){
 
     for(int i=argc-1; i >=0; i--){//매개변수 fromRight push
         snprintf(label, sizeof(label), "arg%d", i+1);//args배열에 매개변수 설명 저장
-        pushval(args[i], label);
+        pushVal(args[i], label);
     }
 
     pushVal(-1, "Return Address");
