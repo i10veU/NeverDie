@@ -49,6 +49,12 @@ void pushVal(int a, const char* thing){//변수 저장: int/변수 설명명
     strncpy(stack_info[SP], thing, sizeof(stack_info[SP]));//설명을 저장? 어떤설명?
 }
 
+void popVal() {//all sp delete
+    if (SP < 0) return;
+    SP--;
+}
+
+
 /*  
     현재 call_stack 전체를 출력합니다.
     해당 함수의 출력 결과들을 바탕으로 구현 완성도를 평가할 예정입니다.
