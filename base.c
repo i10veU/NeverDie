@@ -79,11 +79,11 @@ void funcEnd(int localNum, int argsNum){
     }
 
     FP=call_stack[SP];//FP SFP저장값으로 복원
-    popval();//SFP제거
-    popval();//Return Address 제거
+    popVal();//SFP제거
+    popVal();//Return Address 제거
 
     for(int i=0; i<argsNum; i++){//매개변수 제거
-        popval();
+        popVal();
     }
 }
 
@@ -133,9 +133,9 @@ void func1(int arg1, int arg2, int arg3)
     print_stack();
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
-    funcEnd(1, 2);
-
     print_stack();
+    
+    funcEnd(1, 3);
 }
 
 
@@ -151,9 +151,9 @@ void func2(int arg1, int arg2)
     print_stack();
     func3(77);
     // func3의 스택 프레임 제거 (함수 에필로그 + pop)
-    funcEnd(2, 1);
-
     print_stack();
+
+    funcEnd(1, 2);
 }
 
 
@@ -169,6 +169,8 @@ void func3(int arg1)
     pushVal(var_4, "var_4");
 
     print_stack();
+
+    funcEnd(2, 1);
 }
 
 
@@ -177,7 +179,6 @@ int main()
 {
     func1(1, 2, 3);
     // func1의 스택 프레임 제거 (함수 에필로그 + pop)
-    funcEnd(1, 3);
 
     print_stack();
     return 0;
