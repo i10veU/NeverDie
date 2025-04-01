@@ -133,6 +133,8 @@ void func1(int arg1, int arg2, int arg3)
     print_stack();
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
+    funcEnd(1, 2);
+
     print_stack();
 }
 
@@ -149,6 +151,8 @@ void func2(int arg1, int arg2)
     print_stack();
     func3(77);
     // func3의 스택 프레임 제거 (함수 에필로그 + pop)
+    funcEnd(2, 1);
+
     print_stack();
 }
 
@@ -173,6 +177,8 @@ int main()
 {
     func1(1, 2, 3);
     // func1의 스택 프레임 제거 (함수 에필로그 + pop)
+    funcEnd(1, 3);
+
     print_stack();
     return 0;
 }
