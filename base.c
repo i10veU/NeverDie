@@ -67,11 +67,24 @@ void funcPrologue(const char* funcName, int* args, int argc){
     pushVal(FP, "SFP");
     snprintf(stack_info[SP], sizeof(stack_info[SP]), "%s SFP", funcName);
 
+    //지역변수는?
+
     FP=SP;
 }
 
 void funcEnd(int localNum, int argsNum){
-    
+    //지역변수 제거
+    for(int i=0; i<localNum; i++){
+        popVal();
+    }
+
+    FP=call_stack[SP];//FP SFP저장값으로 복원
+    popval();//SFP제거
+    popval();//Return Address 제거
+
+    for(int i=0; i<argsNum; i++){//매개변수 제거
+        popval();
+    }
 }
 
 
