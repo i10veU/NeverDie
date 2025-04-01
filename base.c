@@ -58,7 +58,7 @@ void funcPrologue(const char* funcName, int* args, int argc){
     char label[20];//설명 버퍼
 
     for(int i=argc-1; i >=0; i--){//매개변수 fromRight push
-        snprintf(label, sizeof(label), "arg%d", i+1);//args배열에 매개변수 설명 저장장
+        snprintf(label, sizeof(label), "arg%d", i+1);//args배열에 매개변수 설명 저장
         pushval(args[i], label);
     }
 
@@ -67,7 +67,7 @@ void funcPrologue(const char* funcName, int* args, int argc){
     pushVal(FP, "SFP");
     snprintf(stack_info[SP], sizeof(stack_info[SP]), "%s SFP", funcName);
 
-    //지역변수는?
+    //지역변수는? 따로 추가.
 
     FP=SP;
 }
@@ -125,7 +125,11 @@ void func1(int arg1, int arg2, int arg3)
 {
     int var_1 = 100;
 
+    int args[]={arg1, arg2, arg3};
     // func1의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func1", args, 3);
+    pushVal(var_1, "var_1");
+
     print_stack();
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
