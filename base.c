@@ -46,7 +46,7 @@ void func3(int arg1);
 void pushVal(int a, const char* thing){//변수 저장: int/변수 설명명
     SP++;
     call_stack[SP]=a;
-    strncpy(stack_info[SP], a);//설명을 저장? 어떤설명?
+    strncpy(stack_info[SP], thing, sizeof(stack_info[SP]));//설명을 저장? 어떤설명?
 }
 
 /*  
