@@ -141,7 +141,11 @@ void func2(int arg1, int arg2)
 {
     int var_2 = 200;
 
+    int args[]={arg1, arg2};
     // func2의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func2", args, 2);
+    pushVal(var_2, "var_2");
+
     print_stack();
     func3(77);
     // func3의 스택 프레임 제거 (함수 에필로그 + pop)
