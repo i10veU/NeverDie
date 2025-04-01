@@ -54,6 +54,26 @@ void popVal() {//all sp delete
     SP--;
 }
 
+void funcPrologue(const char* funcName, int* args, int argc){
+    char label[20];//설명 버퍼
+
+    for(int i=argc-1; i >=0; i--){//매개변수 fromRight push
+        snprintf(label, sizeof(label), "arg%d", i+1);//args배열에 매개변수 설명 저장장
+        pushval(args[i], label);
+    }
+
+    pushVal(-1, "Return Address");
+
+    pushVal(FP, "SFP");
+    snprintf(stack_info[SP], sizeof(stack_info[SP]), "%s SFP", funcName);
+
+    FP=SP;
+}
+
+void funcEnd(int localNum, int argsNum){
+    
+}
+
 
 /*  
     현재 call_stack 전체를 출력합니다.
