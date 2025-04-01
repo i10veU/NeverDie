@@ -23,6 +23,7 @@
 
 //실험 to week1
 #include <stdio.h>
+#include <string.h>
 #define STACK_SIZE 50 // 최대 스택 크기
 
 int     call_stack[STACK_SIZE];         // Call Stack을 저장하는 배열
