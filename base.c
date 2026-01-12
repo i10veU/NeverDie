@@ -21,8 +21,8 @@
     ========================================================================
 */
 
-//commit example?
 #include <stdio.h>
+#include <string.h>
 #define STACK_SIZE 50 // 최대 스택 크기
 
 int     call_stack[STACK_SIZE];         // Call Stack을 저장하는 배열
@@ -42,6 +42,51 @@ int FP = -1;
 void func1(int arg1, int arg2, int arg3);
 void func2(int arg1, int arg2);
 void func3(int arg1);
+
+void pushVal(int a, const char* thing){//변수 저장: int/변수 설명명
+    SP++;
+    call_stack[SP]=a;
+    strncpy(stack_info[SP], thing, sizeof(stack_info[SP]));//설명을 저장? 어떤설명?
+}
+
+void popVal() {//all sp delete
+    if (SP < 0) return;
+    SP--;
+}
+
+void funcPrologue(const char* funcName, int* args, int argc){
+    char label[20];//설명 버퍼
+
+    for(int i=argc-1; i >=0; i--){//매개변수 fromRight push
+        snprintf(label, sizeof(label), "arg%d", i+1);//args배열에 매개변수 설명 저장
+        pushVal(args[i], label);
+    }
+
+    pushVal(-1, "Return Address");
+
+    pushVal(FP, "SFP");
+    snprintf(stack_info[SP], sizeof(stack_info[SP]), "%s SFP", funcName);
+
+    //지역변수는? 따로 추가.
+
+    FP=SP;
+}
+
+void funcEnd(int localNum, int argsNum){
+    //지역변수 제거
+    for(int i=0; i<localNum; i++){
+        popVal();
+    }
+
+    FP=call_stack[SP];//FP SFP저장값으로 복원
+    popVal();//SFP제거
+    popVal();//Return Address 제거
+
+    for(int i=0; i<argsNum; i++){//매개변수 제거
+        popVal();
+    }
+}
+
 
 /*  
     현재 call_stack 전체를 출력합니다.
@@ -80,11 +125,17 @@ void func1(int arg1, int arg2, int arg3)
 {
     int var_1 = 100;
 
+    int args[]={arg1, arg2, arg3};
     // func1의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func1", args, 3);
+    pushVal(var_1, "var_1");
+
     print_stack();
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
     print_stack();
+    
+    funcEnd(1, 3);
 }
 
 
@@ -92,11 +143,17 @@ void func2(int arg1, int arg2)
 {
     int var_2 = 200;
 
+    int args[]={arg1, arg2};
     // func2의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func2", args, 2);
+    pushVal(var_2, "var_2");
+
     print_stack();
     func3(77);
     // func3의 스택 프레임 제거 (함수 에필로그 + pop)
     print_stack();
+
+    funcEnd(1, 2);
 }
 
 
@@ -105,8 +162,15 @@ void func3(int arg1)
     int var_3 = 300;
     int var_4 = 400;
 
+    int args[]={arg1};
     // func3의 스택 프레임 형성 (함수 프롤로그 + push)
+    funcPrologue("func3", args, 1);
+    pushVal(var_3, "var_3");
+    pushVal(var_4, "var_4");
+
     print_stack();
+
+    funcEnd(2, 1);
 }
 
 
@@ -115,6 +179,7 @@ int main()
 {
     func1(1, 2, 3);
     // func1의 스택 프레임 제거 (함수 에필로그 + pop)
+
     print_stack();
     return 0;
 }
